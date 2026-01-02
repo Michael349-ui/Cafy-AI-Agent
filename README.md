@@ -1,38 +1,56 @@
+=========IxNetwork AI Agent=========
 
-🧠 IxNetwork AI Agent
-An AI-powered automation agent that translates natural language intent into executable IxNetwork automation APIs.
+An AI-powered automation agent that translates natural language intent into deterministic IxNetwork automation workflows using existing CAFY APIs.
 
-🚀 What this does
+=========What This Does=========
+
 Converts human intent → deterministic automation
 
-Uses existing CAFY/IxNetwork APIs
+Uses existing CAFY / IxNetwork APIs (no code generation)
 
-Prevents hallucination by tool-locked execution
+Prevents hallucinations through tool-locked execution
 
-Supports two-level device groups & network groups
+Supports two-level Device Groups and Network Groups
 
-🧩 Example
-text
-Copy code
+Improves decision quality over time using feedback-driven memory
+
+=========Example=========
+
 User: "Create a device group with 100 BGP routes and start traffic"
-➡️ Agent plan:
 
-create_device_group()
-
-configure_bgp_routes()
-
-start_traffic()
-
-➡️ Executes using trusted IxNetwork APIs
-
-🛠️ Architecture
+=========Architecture=========
 
 User Input
    ↓
 Intent Parser (LLM)
    ↓
-Planner (JSON plan)
+Planner (JSON Execution Plan)
    ↓
-Tool Executor
+Tool Executor (Validated APIs)
    ↓
-IxNetwork APIs
+IxNetwork / CAFY APIs
+
+=========Memory & Learning Flow=========
+
+CAFY APIs → Prompt Rules → Execution
+     ↓             ↑
+ Validation → Memory → FAISS Retrieval
+
+=========How the Agent Improves Over Time=========
+
+This AI Agent improves its responses using a feedback-driven memory loop:
+
+The agent reads existing CAFY APIs (cafy_apis/) to understand how automation functions are structured and executed.
+
+Prompt rules guide how natural language intent is translated into executable actions.
+
+Each execution is validated to determine whether the output is correct or incorrect.
+
+The result (success or failure) is stored as contextual memory.
+
+Relevant past interactions are stored in a FAISS vector database.
+
+On subsequent runs, the agent retrieves similar past cases (both correct and incorrect) and adjusts its planning and execution strategy accordingly.
+
+⚠️ The agent does not retrain or fine-tune the LLM.
+Learning occurs through retrieval-augmented feedback, keeping API execution deterministic and safe.
